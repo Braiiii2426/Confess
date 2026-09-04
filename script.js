@@ -1,3 +1,4 @@
+```javascript
 // ============================================================
 // FOR YOU, AS ALWAYS
 // JavaScript
@@ -682,9 +683,218 @@ setInterval(() => {
 
 
 // ============================================================
+// 13. ADDED — INTERACTIVE MUSIC PLAYER
+// ============================================================
+
+const musicPlayer =
+    document.querySelector(".music-player");
+
+const musicPlayButton =
+    document.getElementById("playButton");
+
+const musicMuteButton =
+    document.getElementById("muteButton");
+
+const musicProgressBar =
+    document.getElementById("progressBar");
+
+const musicVolumeBar =
+    document.getElementById("volumeBar");
+
+const musicCurrentTime =
+    document.getElementById("currentTime");
+
+const musicDuration =
+    document.getElementById("duration");
+
+
+// Keep the player volume synchronized
+backgroundMusic.volume =
+    musicVolumeBar.value;
+
+
+// Play / Pause
+musicPlayButton.addEventListener("click", () => {
+
+    if (backgroundMusic.paused) {
+
+        backgroundMusic.play();
+
+    } else {
+
+        backgroundMusic.pause();
+
+    }
+
+});
+
+
+// Change button when music plays
+backgroundMusic.addEventListener("play", () => {
+
+    musicPlayButton.textContent =
+        "Ⅱ";
+
+    musicPlayer.classList.add(
+        "music-playing"
+    );
+
+});
+
+
+// Change button when music pauses
+backgroundMusic.addEventListener("pause", () => {
+
+    musicPlayButton.textContent =
+        "▶";
+
+    musicPlayer.classList.remove(
+        "music-playing"
+    );
+
+});
+
+
+// Update progress bar
+backgroundMusic.addEventListener(
+    "timeupdate",
+    () => {
+
+        if (!backgroundMusic.duration) return;
+
+        const progress =
+            (
+                backgroundMusic.currentTime /
+                backgroundMusic.duration
+            ) * 100;
+
+        musicProgressBar.value =
+            progress;
+
+        musicCurrentTime.textContent =
+            formatMusicTime(
+                backgroundMusic.currentTime
+            );
+
+    }
+);
+
+
+// Load total duration
+backgroundMusic.addEventListener(
+    "loadedmetadata",
+    () => {
+
+        musicDuration.textContent =
+            formatMusicTime(
+                backgroundMusic.duration
+            );
+
+    }
+);
+
+
+// Move through song
+musicProgressBar.addEventListener(
+    "input",
+    () => {
+
+        if (!backgroundMusic.duration) return;
+
+        backgroundMusic.currentTime =
+            (
+                musicProgressBar.value /
+                100
+            ) * backgroundMusic.duration;
+
+    }
+);
+
+
+// Volume control
+musicVolumeBar.addEventListener(
+    "input",
+    () => {
+
+        backgroundMusic.volume =
+            musicVolumeBar.value;
+
+        backgroundMusic.muted =
+            musicVolumeBar.value == 0;
+
+        updateVolumeIcon();
+
+    }
+);
+
+
+// Mute button
+musicMuteButton.addEventListener(
+    "click",
+    () => {
+
+        backgroundMusic.muted =
+            !backgroundMusic.muted;
+
+        updateVolumeIcon();
+
+    }
+);
+
+
+// Update volume icon
+function updateVolumeIcon() {
+
+    if (
+        backgroundMusic.muted ||
+        backgroundMusic.volume === 0
+    ) {
+
+        musicMuteButton.textContent =
+            "🔇";
+
+    } else if (
+        backgroundMusic.volume < 0.5
+    ) {
+
+        musicMuteButton.textContent =
+            "🔉";
+
+    } else {
+
+        musicMuteButton.textContent =
+            "🔊";
+
+    }
+
+}
+
+
+// Format seconds into 0:00
+function formatMusicTime(seconds) {
+
+    if (!isFinite(seconds)) {
+        return "0:00";
+    }
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const remainingSeconds =
+        Math.floor(seconds % 60)
+            .toString()
+            .padStart(2, "0");
+
+    return `${minutes}:${remainingSeconds}`;
+
+}
+
+
+// ============================================================
 // END OF SCRIPT
 // ============================================================
 
 console.log(
     "💜 For You, As Always — website initialized."
 );
+```
