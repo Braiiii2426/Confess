@@ -286,7 +286,6 @@
 
     </main>
 
-
     <!-- =====================================================
          INTERACTIVE MUSIC PLAYER
          ===================================================== -->
@@ -295,94 +294,53 @@
 
         <div class="music-player-glow"></div>
 
-        <div class="music-player-info">
+        <div class="music-disc">
+            <div class="music-disc-center">♪</div>
+        </div>
 
-            <div class="music-disc">
+        <div class="music-details">
 
-                <div class="music-disc-center">
-                    ♪
-                </div>
+            <span class="music-label">
+                NOW PLAYING
+            </span>
 
-            </div>
+            <h3>
+                Perfect
+            </h3>
 
-            <div class="music-details">
-
-                <span class="music-label">
-                    NOW PLAYING
-                </span>
-
-                <h3>
-                    Perfect
-                </h3>
-
-                <p>
-                    Ed Sheeran
-                </p>
-
-            </div>
+            <p>
+                Ed Sheeran
+            </p>
 
         </div>
 
+        <button
+            class="music-control play-control"
+            id="musicPlayButton"
+            aria-label="Play or pause music"
+        >
+            ▶
+        </button>
 
-        <div class="music-player-controls">
+        <div class="music-main-controls">
 
-            <button
-                class="music-control-button"
-                id="muteButton"
-                aria-label="Mute music"
-                type="button">
-                🔊
-            </button>
+            <div class="music-progress-row">
 
-
-            <button
-                class="music-play-button"
-                id="playButton"
-                aria-label="Play music"
-                type="button">
-                ▶
-            </button>
-
-
-            <div class="music-progress-container">
-
-                <input
-                    type="range"
-                    id="progressBar"
-                    min="0"
-                    max="100"
-                    value="0"
-                    aria-label="Music progress">
-
-                <div class="music-time">
-
-                    <span id="currentTime">
-                        0:00
-                    </span>
-
-                    <span id="duration">
-                        0:00
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="music-volume-container">
-
-                <span class="volume-icon" id="volumeIcon">
-                    🔊
+                <span id="musicCurrentTime">
+                    0:00
                 </span>
 
                 <input
                     type="range"
-                    id="volumeBar"
+                    id="musicProgress"
                     min="0"
-                    max="1"
-                    step="0.01"
-                    value="0.35"
-                    aria-label="Music volume">
+                    max="100"
+                    value="0"
+                >
+
+                <span id="musicDuration">
+                    0:00
+                </span>
 
             </div>
 
@@ -390,12 +348,11 @@
 
     </div>
 
-
     <!-- =====================================================
          BACKGROUND MUSIC
          ===================================================== -->
 
-    <audio id="backgroundMusic" loop preload="metadata">
+    <audio id="backgroundMusic" loop>
         <source src="Perfect_music.mp3" type="audio/mpeg">
     </audio>
 
