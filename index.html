@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -286,6 +287,111 @@
 
     </main>
 
+
+    <!-- =====================================================
+         ADDED: INTERACTIVE MUSIC PLAYER
+         ===================================================== -->
+
+    <div class="music-player">
+
+        <div class="music-player-glow"></div>
+
+        <div class="music-player-info">
+
+            <div class="music-disc">
+
+                <div class="music-disc-center">
+                    ♪
+                </div>
+
+            </div>
+
+            <div class="music-details">
+
+                <span class="music-label">
+                    NOW PLAYING
+                </span>
+
+                <h3>
+                    Perfect
+                </h3>
+
+                <p>
+                    Ed Sheeran
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="music-player-controls">
+
+            <button
+                class="music-control-button"
+                id="muteButton"
+                aria-label="Mute music"
+                type="button">
+                🔊
+            </button>
+
+
+            <button
+                class="music-play-button"
+                id="playButton"
+                aria-label="Play music"
+                type="button">
+                ▶
+            </button>
+
+
+            <div class="music-progress-container">
+
+                <input
+                    type="range"
+                    id="progressBar"
+                    min="0"
+                    max="100"
+                    value="0"
+                    aria-label="Music progress">
+
+                <div class="music-time">
+
+                    <span id="currentTime">
+                        0:00
+                    </span>
+
+                    <span id="duration">
+                        0:00
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="music-volume-container">
+
+                <span class="volume-icon">
+                    🔊
+                </span>
+
+                <input
+                    type="range"
+                    id="volumeBar"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.35"
+                    aria-label="Music volume">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
     <!-- =====================================================
          BACKGROUND MUSIC
          ===================================================== -->
@@ -299,3 +405,4 @@
 
 </body>
 </html>
+```
