@@ -20,6 +20,13 @@ const fallingEffects = document.getElementById("fallingEffects");
 // Background music
 const backgroundMusic = document.getElementById("backgroundMusic");
 
+// Music player
+const musicPlayer = document.getElementById("musicPlayer");
+const musicPlayButton = document.getElementById("musicPlayButton");
+const progressBar = document.getElementById("progressBar");
+const musicCurrentTime = document.getElementById("musicCurrentTime");
+const musicDuration = document.getElementById("musicDuration");
+
 
 // ============================================================
 // 2. WEBSITE STARTUP
@@ -55,8 +62,19 @@ beginButton.addEventListener("click", () => {
     entrance.classList.add("opening");
 
     // Start background music
-    backgroundMusic.volume = 0.35;
-    backgroundMusic.play();
+    backgroundMusic.volume = 1.0;
+
+    backgroundMusic.play().then(() => {
+
+        musicPlayer.classList.add("music-playing");
+
+        musicPlayButton.textContent = "❚❚";
+
+    }).catch(() => {
+
+        musicPlayButton.textContent = "▶";
+
+    });
 
     // Future sound effect goes here
     //
@@ -88,7 +106,131 @@ beginButton.addEventListener("click", () => {
 
 
 // ============================================================
-// 4. EIGHT DIFFERENT FALLING EFFECTS
+// 4. MUSIC PLAYER
+// ============================================================
+
+// Keep music volume at maximum
+backgroundMusic.volume = 1.0;
+
+
+// Format seconds into minutes and seconds
+function formatMusicTime(seconds) {
+
+    if (!isFinite(seconds)) {
+        return "0:00";
+    }
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const remainingSeconds =
+        Math.floor(seconds % 60);
+
+    return (
+        minutes +
+        ":" +
+        String(remainingSeconds).padStart(2, "0")
+    );
+
+}
+
+
+// Play / pause button
+musicPlayButton.addEventListener("click", (event) => {
+
+    event.stopPropagation();
+
+    if (backgroundMusic.paused) {
+
+        backgroundMusic.volume = 1.0;
+
+        backgroundMusic.play();
+
+    } else {
+
+        backgroundMusic.pause();
+
+    }
+
+});
+
+
+// Update player when music starts
+backgroundMusic.addEventListener("play", () => {
+
+    backgroundMusic.volume = 1.0;
+
+    musicPlayer.classList.add("music-playing");
+
+    musicPlayButton.textContent = "❚❚";
+
+});
+
+
+// Update player when music pauses
+backgroundMusic.addEventListener("pause", () => {
+
+    musicPlayer.classList.remove("music-playing");
+
+    musicPlayButton.textContent = "▶";
+
+});
+
+
+// Get duration once audio is ready
+backgroundMusic.addEventListener("loadedmetadata", () => {
+
+    musicDuration.textContent =
+        formatMusicTime(
+            backgroundMusic.duration
+        );
+
+});
+
+
+// Update progress
+backgroundMusic.addEventListener("timeupdate", () => {
+
+    if (!backgroundMusic.duration) {
+        return;
+    }
+
+    const progress =
+        (backgroundMusic.currentTime /
+            backgroundMusic.duration) *
+        100;
+
+    progressBar.value = progress;
+
+    musicCurrentTime.textContent =
+        formatMusicTime(
+            backgroundMusic.currentTime
+        );
+
+    musicDuration.textContent =
+        formatMusicTime(
+            backgroundMusic.duration
+        );
+
+});
+
+
+// Seek through the song
+progressBar.addEventListener("input", () => {
+
+    if (!backgroundMusic.duration) {
+        return;
+    }
+
+    backgroundMusic.currentTime =
+        (progressBar.value / 100) *
+        backgroundMusic.duration;
+
+});
+
+
+// ============================================================
+// 5. EIGHT DIFFERENT FALLING EFFECTS
 // ============================================================
 //
 // Each effect has its own symbol, movement and behavior.
@@ -261,7 +403,7 @@ function createFallingEffects() {
 
 
 // ============================================================
-// 5. BACKGROUND PARTICLES
+// 6. BACKGROUND PARTICLES
 // ============================================================
 
 function createBackgroundParticles() {
@@ -321,7 +463,7 @@ function createBackgroundParticles() {
 
 
 // ============================================================
-// 6. SCROLL REVEAL SYSTEM
+// 7. SCROLL REVEAL SYSTEM
 // ============================================================
 
 function prepareScrollAnimations() {
@@ -388,7 +530,7 @@ function startScrollAnimations() {
 
 
 // ============================================================
-// 7. HIDDEN MESSAGE
+// 8. HIDDEN MESSAGE
 // ============================================================
 
 revealButton.addEventListener("click", () => {
@@ -428,7 +570,7 @@ revealButton.addEventListener("click", () => {
 
 
 // ============================================================
-// 8. CLICKABLE HEART EFFECT
+// 9. CLICKABLE HEART EFFECT
 // ============================================================
 
 document.addEventListener("click", (event) => {
@@ -438,6 +580,17 @@ document.addEventListener("click", (event) => {
     if (
         event.target.closest(
             "#beginButton"
+        )
+    ) {
+        return;
+    }
+
+
+    // Don't create a click heart when using
+    // the music player
+    if (
+        event.target.closest(
+            "#musicPlayer"
         )
     ) {
         return;
@@ -492,7 +645,7 @@ function createClickHeart(x, y) {
 
 
 // ============================================================
-// 9. SMOOTH SCROLL
+// 10. SMOOTH SCROLL
 // ============================================================
 
 document.addEventListener("click", (event) => {
@@ -518,7 +671,7 @@ document.addEventListener("click", (event) => {
 
 
 // ============================================================
-// 10. FINAL ROSE INTERACTION
+// 11. FINAL ROSE INTERACTION
 // ============================================================
 
 const finalRose =
@@ -627,7 +780,7 @@ function createRoseHeart(rose) {
 
 
 // ============================================================
-// 11. RANDOM GLOW PULSE
+// 12. RANDOM GLOW PULSE
 // ============================================================
 //
 // Gives the background a subtle "alive" feeling.
@@ -668,7 +821,7 @@ setInterval(() => {
 
 
 // ============================================================
-// 12. PREVENT ACCIDENTAL CONTEXT MENU
+// 13. PREVENT ACCIDENTAL CONTEXT MENU
 // ============================================================
 //
 // Disabled for now.
