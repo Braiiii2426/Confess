@@ -287,6 +287,64 @@
     </main>
 
     <!-- =====================================================
+         MUSIC PLAYER
+         ===================================================== -->
+
+    <div class="music-player" id="musicPlayer">
+
+        <div class="music-player-top">
+
+            <div class="music-player-icon">
+                ♪
+            </div>
+
+            <div class="music-player-info">
+
+                <span class="music-player-label">
+                    NOW PLAYING
+                </span>
+
+                <span class="music-player-title">
+                    Perfect
+                </span>
+
+            </div>
+
+            <button
+                class="music-play-button"
+                id="musicPlayButton"
+                aria-label="Play or pause music"
+            >
+                ▶
+            </button>
+
+        </div>
+
+        <div class="music-player-progress">
+
+            <span id="musicCurrentTime">
+                0:00
+            </span>
+
+            <input
+                type="range"
+                id="progressBar"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+                aria-label="Music progress"
+            >
+
+            <span id="musicDuration">
+                0:00
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
          BACKGROUND MUSIC
          ===================================================== -->
 
