@@ -294,19 +294,25 @@
 
         <div class="music-player-top">
 
-            <div class="music-player-icon">
-                ♪
+            <div class="music-disc" id="musicDisc">
+                <div class="music-disc-center">
+                    ♥
+                </div>
             </div>
 
-            <div class="music-player-info">
+            <div class="music-details">
 
-                <span class="music-player-label">
+                <span class="music-label">
                     NOW PLAYING
                 </span>
 
-                <span class="music-player-title">
+                <h3>
                     Perfect
-                </span>
+                </h3>
+
+                <p>
+                    Ed Sheeran
+                </p>
 
             </div>
 
@@ -320,11 +326,7 @@
 
         </div>
 
-        <div class="music-player-progress">
-
-            <span id="musicCurrentTime">
-                0:00
-            </span>
+        <div class="music-progress-container">
 
             <input
                 type="range"
@@ -336,9 +338,17 @@
                 aria-label="Music progress"
             >
 
-            <span id="musicDuration">
-                0:00
-            </span>
+            <div class="music-time">
+
+                <span id="currentTime">
+                    0:00
+                </span>
+
+                <span id="duration">
+                    0:00
+                </span>
+
+            </div>
 
         </div>
 
