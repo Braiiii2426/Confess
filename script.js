@@ -24,8 +24,8 @@ const backgroundMusic = document.getElementById("backgroundMusic");
 const musicPlayer = document.getElementById("musicPlayer");
 const musicPlayButton = document.getElementById("musicPlayButton");
 const progressBar = document.getElementById("progressBar");
-const musicCurrentTime = document.getElementById("musicCurrentTime");
-const musicDuration = document.getElementById("musicDuration");
+const currentTimeDisplay = document.getElementById("currentTime");
+const durationDisplay = document.getElementById("duration");
 
 
 // ============================================================
@@ -46,6 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Prepare scroll animations
     prepareScrollAnimations();
 
+    // Prepare music player
+    prepareMusicPlayer();
+
 });
 
 
@@ -62,13 +65,13 @@ beginButton.addEventListener("click", () => {
     entrance.classList.add("opening");
 
     // Start background music
-    backgroundMusic.volume = 1.0;
+    backgroundMusic.volume = 1;
 
     backgroundMusic.play().then(() => {
 
         musicPlayer.classList.add("music-playing");
 
-        musicPlayButton.textContent = "❚❚";
+        musicPlayButton.textContent = "Ⅱ";
 
     }).catch(() => {
 
@@ -106,131 +109,7 @@ beginButton.addEventListener("click", () => {
 
 
 // ============================================================
-// 4. MUSIC PLAYER
-// ============================================================
-
-// Keep music volume at maximum
-backgroundMusic.volume = 1.0;
-
-
-// Format seconds into minutes and seconds
-function formatMusicTime(seconds) {
-
-    if (!isFinite(seconds)) {
-        return "0:00";
-    }
-
-    const minutes =
-        Math.floor(seconds / 60);
-
-    const remainingSeconds =
-        Math.floor(seconds % 60);
-
-    return (
-        minutes +
-        ":" +
-        String(remainingSeconds).padStart(2, "0")
-    );
-
-}
-
-
-// Play / pause button
-musicPlayButton.addEventListener("click", (event) => {
-
-    event.stopPropagation();
-
-    if (backgroundMusic.paused) {
-
-        backgroundMusic.volume = 1.0;
-
-        backgroundMusic.play();
-
-    } else {
-
-        backgroundMusic.pause();
-
-    }
-
-});
-
-
-// Update player when music starts
-backgroundMusic.addEventListener("play", () => {
-
-    backgroundMusic.volume = 1.0;
-
-    musicPlayer.classList.add("music-playing");
-
-    musicPlayButton.textContent = "❚❚";
-
-});
-
-
-// Update player when music pauses
-backgroundMusic.addEventListener("pause", () => {
-
-    musicPlayer.classList.remove("music-playing");
-
-    musicPlayButton.textContent = "▶";
-
-});
-
-
-// Get duration once audio is ready
-backgroundMusic.addEventListener("loadedmetadata", () => {
-
-    musicDuration.textContent =
-        formatMusicTime(
-            backgroundMusic.duration
-        );
-
-});
-
-
-// Update progress
-backgroundMusic.addEventListener("timeupdate", () => {
-
-    if (!backgroundMusic.duration) {
-        return;
-    }
-
-    const progress =
-        (backgroundMusic.currentTime /
-            backgroundMusic.duration) *
-        100;
-
-    progressBar.value = progress;
-
-    musicCurrentTime.textContent =
-        formatMusicTime(
-            backgroundMusic.currentTime
-        );
-
-    musicDuration.textContent =
-        formatMusicTime(
-            backgroundMusic.duration
-        );
-
-});
-
-
-// Seek through the song
-progressBar.addEventListener("input", () => {
-
-    if (!backgroundMusic.duration) {
-        return;
-    }
-
-    backgroundMusic.currentTime =
-        (progressBar.value / 100) *
-        backgroundMusic.duration;
-
-});
-
-
-// ============================================================
-// 5. EIGHT DIFFERENT FALLING EFFECTS
+// 4. EIGHT DIFFERENT FALLING EFFECTS
 // ============================================================
 //
 // Each effect has its own symbol, movement and behavior.
@@ -403,7 +282,7 @@ function createFallingEffects() {
 
 
 // ============================================================
-// 6. BACKGROUND PARTICLES
+// 5. BACKGROUND PARTICLES
 // ============================================================
 
 function createBackgroundParticles() {
@@ -463,7 +342,7 @@ function createBackgroundParticles() {
 
 
 // ============================================================
-// 7. SCROLL REVEAL SYSTEM
+// 6. SCROLL REVEAL SYSTEM
 // ============================================================
 
 function prepareScrollAnimations() {
@@ -530,7 +409,7 @@ function startScrollAnimations() {
 
 
 // ============================================================
-// 8. HIDDEN MESSAGE
+// 7. HIDDEN MESSAGE
 // ============================================================
 
 revealButton.addEventListener("click", () => {
@@ -570,7 +449,7 @@ revealButton.addEventListener("click", () => {
 
 
 // ============================================================
-// 9. CLICKABLE HEART EFFECT
+// 8. CLICKABLE HEART EFFECT
 // ============================================================
 
 document.addEventListener("click", (event) => {
@@ -586,8 +465,7 @@ document.addEventListener("click", (event) => {
     }
 
 
-    // Don't create a click heart when using
-    // the music player
+    // Don't create click hearts on the music player
     if (
         event.target.closest(
             "#musicPlayer"
@@ -645,7 +523,7 @@ function createClickHeart(x, y) {
 
 
 // ============================================================
-// 10. SMOOTH SCROLL
+// 9. SMOOTH SCROLL
 // ============================================================
 
 document.addEventListener("click", (event) => {
@@ -671,7 +549,7 @@ document.addEventListener("click", (event) => {
 
 
 // ============================================================
-// 11. FINAL ROSE INTERACTION
+// 10. FINAL ROSE INTERACTION
 // ============================================================
 
 const finalRose =
@@ -780,7 +658,7 @@ function createRoseHeart(rose) {
 
 
 // ============================================================
-// 12. RANDOM GLOW PULSE
+// 11. RANDOM GLOW PULSE
 // ============================================================
 //
 // Gives the background a subtle "alive" feeling.
@@ -818,6 +696,137 @@ setInterval(() => {
     }, 4000);
 
 }, 3000);
+
+
+// ============================================================
+// 12. MUSIC PLAYER
+// ============================================================
+
+function prepareMusicPlayer() {
+
+    if (!backgroundMusic) return;
+
+    backgroundMusic.volume = 1;
+
+    backgroundMusic.addEventListener(
+        "loadedmetadata",
+        () => {
+
+            durationDisplay.textContent =
+                formatTime(backgroundMusic.duration);
+
+        }
+    );
+
+
+    backgroundMusic.addEventListener(
+        "timeupdate",
+        () => {
+
+            if (!backgroundMusic.duration) return;
+
+            const progress =
+                (backgroundMusic.currentTime /
+                backgroundMusic.duration) *
+                100;
+
+            progressBar.value =
+                progress;
+
+            currentTimeDisplay.textContent =
+                formatTime(
+                    backgroundMusic.currentTime
+                );
+
+        }
+    );
+
+
+    backgroundMusic.addEventListener(
+        "play",
+        () => {
+
+            musicPlayer.classList.add(
+                "music-playing"
+            );
+
+            musicPlayButton.textContent =
+                "Ⅱ";
+
+        }
+    );
+
+
+    backgroundMusic.addEventListener(
+        "pause",
+        () => {
+
+            musicPlayer.classList.remove(
+                "music-playing"
+            );
+
+            musicPlayButton.textContent =
+                "▶";
+
+        }
+    );
+
+
+    musicPlayButton.addEventListener(
+        "click",
+        () => {
+
+            if (backgroundMusic.paused) {
+
+                backgroundMusic.volume = 1;
+
+                backgroundMusic.play();
+
+            } else {
+
+                backgroundMusic.pause();
+
+            }
+
+        }
+    );
+
+
+    progressBar.addEventListener(
+        "input",
+        () => {
+
+            if (!backgroundMusic.duration) return;
+
+            backgroundMusic.currentTime =
+                (progressBar.value / 100) *
+                backgroundMusic.duration;
+
+        }
+    );
+
+}
+
+
+function formatTime(seconds) {
+
+    if (!seconds || isNaN(seconds)) {
+        return "0:00";
+    }
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const remainingSeconds =
+        Math.floor(seconds % 60);
+
+    return (
+        minutes +
+        ":" +
+        String(remainingSeconds).padStart(2, "0")
+    );
+
+}
 
 
 // ============================================================
