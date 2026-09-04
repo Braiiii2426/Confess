@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -289,10 +288,10 @@
 
 
     <!-- =====================================================
-         ADDED: INTERACTIVE MUSIC PLAYER
+         INTERACTIVE MUSIC PLAYER
          ===================================================== -->
 
-    <div class="music-player">
+    <div class="music-player" id="musicPlayer">
 
         <div class="music-player-glow"></div>
 
@@ -372,7 +371,7 @@
 
             <div class="music-volume-container">
 
-                <span class="volume-icon">
+                <span class="volume-icon" id="volumeIcon">
                     🔊
                 </span>
 
@@ -396,7 +395,7 @@
          BACKGROUND MUSIC
          ===================================================== -->
 
-    <audio id="backgroundMusic" loop>
+    <audio id="backgroundMusic" loop preload="metadata">
         <source src="Perfect_music.mp3" type="audio/mpeg">
     </audio>
 
@@ -405,4 +404,3 @@
 
 </body>
 </html>
-```
