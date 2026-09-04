@@ -1,4 +1,3 @@
-```javascript
 // ============================================================
 // FOR YOU, AS ALWAYS
 // JavaScript
@@ -57,7 +56,22 @@ beginButton.addEventListener("click", () => {
 
     // Start background music
     backgroundMusic.volume = 0.35;
-    backgroundMusic.play();
+
+    const musicPromise = backgroundMusic.play();
+
+    if (musicPromise !== undefined) {
+
+        musicPromise.catch(error => {
+
+            console.log(
+                "Music could not start automatically:",
+                error
+            );
+
+        });
+
+    }
+
 
     // Future sound effect goes here
     //
@@ -65,6 +79,7 @@ beginButton.addEventListener("click", () => {
     //
     // const clickSound = new Audio("sounds/click.mp3");
     // clickSound.play();
+
 
     // Wait for the entrance animation
     setTimeout(() => {
@@ -683,11 +698,11 @@ setInterval(() => {
 
 
 // ============================================================
-// 13. ADDED — INTERACTIVE MUSIC PLAYER
+// 13. INTERACTIVE MUSIC PLAYER
 // ============================================================
 
 const musicPlayer =
-    document.querySelector(".music-player");
+    document.getElementById("musicPlayer");
 
 const musicPlayButton =
     document.getElementById("playButton");
@@ -707,83 +722,174 @@ const musicCurrentTime =
 const musicDuration =
     document.getElementById("duration");
 
-
-// Keep the player volume synchronized
-backgroundMusic.volume =
-    musicVolumeBar.value;
+const volumeIcon =
+    document.getElementById("volumeIcon");
 
 
-// Play / Pause
-musicPlayButton.addEventListener("click", () => {
+// ============================================================
+// MUSIC PLAYER INITIALIZATION
+// ============================================================
 
-    if (backgroundMusic.paused) {
+if (
+    musicPlayer &&
+    musicPlayButton &&
+    musicMuteButton &&
+    musicProgressBar &&
+    musicVolumeBar &&
+    musicCurrentTime &&
+    musicDuration &&
+    backgroundMusic
+) {
 
-        backgroundMusic.play();
+    // Start with the same volume as the website
+    backgroundMusic.volume = 0.35;
 
-    } else {
+    musicVolumeBar.value =
+        backgroundMusic.volume;
 
-        backgroundMusic.pause();
-
-    }
-
-});
+    updateVolumeIcon();
 
 
-// Change button when music plays
-backgroundMusic.addEventListener("play", () => {
+    // ========================================================
+    // PLAY / PAUSE
+    // ========================================================
 
-    musicPlayButton.textContent =
-        "Ⅱ";
+    musicPlayButton.addEventListener(
+        "click",
+        () => {
 
-    musicPlayer.classList.add(
-        "music-playing"
+            if (backgroundMusic.paused) {
+
+                const playPromise =
+                    backgroundMusic.play();
+
+                if (playPromise !== undefined) {
+
+                    playPromise.catch(error => {
+
+                        console.log(
+                            "Music playback failed:",
+                            error
+                        );
+
+                    });
+
+                }
+
+            } else {
+
+                backgroundMusic.pause();
+
+            }
+
+        }
     );
 
-});
 
+    // ========================================================
+    // MUSIC STARTED
+    // ========================================================
 
-// Change button when music pauses
-backgroundMusic.addEventListener("pause", () => {
+    backgroundMusic.addEventListener(
+        "play",
+        () => {
 
-    musicPlayButton.textContent =
-        "▶";
+            musicPlayButton.textContent =
+                "Ⅱ";
 
-    musicPlayer.classList.remove(
-        "music-playing"
-    );
-
-});
-
-
-// Update progress bar
-backgroundMusic.addEventListener(
-    "timeupdate",
-    () => {
-
-        if (!backgroundMusic.duration) return;
-
-        const progress =
-            (
-                backgroundMusic.currentTime /
-                backgroundMusic.duration
-            ) * 100;
-
-        musicProgressBar.value =
-            progress;
-
-        musicCurrentTime.textContent =
-            formatMusicTime(
-                backgroundMusic.currentTime
+            musicPlayButton.setAttribute(
+                "aria-label",
+                "Pause music"
             );
 
-    }
-);
+            musicPlayer.classList.add(
+                "music-playing"
+            );
+
+        }
+    );
 
 
-// Load total duration
-backgroundMusic.addEventListener(
-    "loadedmetadata",
-    () => {
+    // ========================================================
+    // MUSIC PAUSED
+    // ========================================================
+
+    backgroundMusic.addEventListener(
+        "pause",
+        () => {
+
+            musicPlayButton.textContent =
+                "▶";
+
+            musicPlayButton.setAttribute(
+                "aria-label",
+                "Play music"
+            );
+
+            musicPlayer.classList.remove(
+                "music-playing"
+            );
+
+        }
+    );
+
+
+    // ========================================================
+    // MUSIC ENDED
+    // ========================================================
+
+    backgroundMusic.addEventListener(
+        "ended",
+        () => {
+
+            musicPlayButton.textContent =
+                "▶";
+
+            musicPlayer.classList.remove(
+                "music-playing"
+            );
+
+            musicProgressBar.value =
+                0;
+
+            musicCurrentTime.textContent =
+                "0:00";
+
+        }
+    );
+
+
+    // ========================================================
+    // LOAD SONG DURATION
+    // ========================================================
+
+    backgroundMusic.addEventListener(
+        "loadedmetadata",
+        () => {
+
+            if (
+                Number.isFinite(
+                    backgroundMusic.duration
+                )
+            ) {
+
+                musicDuration.textContent =
+                    formatMusicTime(
+                        backgroundMusic.duration
+                    );
+
+            }
+
+        }
+    );
+
+
+    // Also try when metadata is already loaded
+    if (
+        Number.isFinite(
+            backgroundMusic.duration
+        )
+    ) {
 
         musicDuration.textContent =
             formatMusicTime(
@@ -791,101 +897,199 @@ backgroundMusic.addEventListener(
             );
 
     }
-);
 
 
-// Move through song
-musicProgressBar.addEventListener(
-    "input",
-    () => {
+    // ========================================================
+    // UPDATE PROGRESS
+    // ========================================================
 
-        if (!backgroundMusic.duration) return;
+    backgroundMusic.addEventListener(
+        "timeupdate",
+        () => {
 
-        backgroundMusic.currentTime =
-            (
-                musicProgressBar.value /
-                100
-            ) * backgroundMusic.duration;
-
-    }
-);
-
-
-// Volume control
-musicVolumeBar.addEventListener(
-    "input",
-    () => {
-
-        backgroundMusic.volume =
-            musicVolumeBar.value;
-
-        backgroundMusic.muted =
-            musicVolumeBar.value == 0;
-
-        updateVolumeIcon();
-
-    }
-);
+            if (
+                !Number.isFinite(
+                    backgroundMusic.duration
+                )
+            ) {
+                return;
+            }
 
 
-// Mute button
-musicMuteButton.addEventListener(
-    "click",
-    () => {
-
-        backgroundMusic.muted =
-            !backgroundMusic.muted;
-
-        updateVolumeIcon();
-
-    }
-);
+            const progress =
+                (
+                    backgroundMusic.currentTime /
+                    backgroundMusic.duration
+                ) * 100;
 
 
-// Update volume icon
-function updateVolumeIcon() {
+            musicProgressBar.value =
+                progress;
 
-    if (
-        backgroundMusic.muted ||
-        backgroundMusic.volume === 0
-    ) {
 
-        musicMuteButton.textContent =
-            "🔇";
+            musicCurrentTime.textContent =
+                formatMusicTime(
+                    backgroundMusic.currentTime
+                );
 
-    } else if (
-        backgroundMusic.volume < 0.5
-    ) {
+        }
+    );
 
-        musicMuteButton.textContent =
-            "🔉";
 
-    } else {
+    // ========================================================
+    // SEEK THROUGH SONG
+    // ========================================================
 
-        musicMuteButton.textContent =
+    musicProgressBar.addEventListener(
+        "input",
+        () => {
+
+            if (
+                !Number.isFinite(
+                    backgroundMusic.duration
+                )
+            ) {
+                return;
+            }
+
+
+            backgroundMusic.currentTime =
+                (
+                    musicProgressBar.value / 100
+                ) *
+                backgroundMusic.duration;
+
+        }
+    );
+
+
+    // ========================================================
+    // VOLUME
+    // ========================================================
+
+    musicVolumeBar.addEventListener(
+        "input",
+        () => {
+
+            const volume =
+                Number(
+                    musicVolumeBar.value
+                );
+
+
+            backgroundMusic.volume =
+                volume;
+
+
+            // If user raises volume again,
+            // automatically unmute.
+            if (volume > 0) {
+
+                backgroundMusic.muted =
+                    false;
+
+            }
+
+
+            updateVolumeIcon();
+
+        }
+    );
+
+
+    // ========================================================
+    // MUTE
+    // ========================================================
+
+    musicMuteButton.addEventListener(
+        "click",
+        () => {
+
+            backgroundMusic.muted =
+                !backgroundMusic.muted;
+
+            updateVolumeIcon();
+
+        }
+    );
+
+
+    // ========================================================
+    // VOLUME ICON
+    // ========================================================
+
+    function updateVolumeIcon() {
+
+        let icon =
             "🔊";
 
+
+        if (
+            backgroundMusic.muted ||
+            backgroundMusic.volume === 0
+        ) {
+
+            icon =
+                "🔇";
+
+        } else if (
+            backgroundMusic.volume < 0.5
+        ) {
+
+            icon =
+                "🔉";
+
+        }
+
+
+        musicMuteButton.textContent =
+            icon;
+
+
+        if (volumeIcon) {
+
+            volumeIcon.textContent =
+                icon;
+
+        }
+
     }
 
-}
+
+    // ========================================================
+    // FORMAT TIME
+    // ========================================================
+
+    function formatMusicTime(seconds) {
+
+        if (
+            !Number.isFinite(seconds)
+        ) {
+
+            return "0:00";
+
+        }
 
 
-// Format seconds into 0:00
-function formatMusicTime(seconds) {
+        const minutes =
+            Math.floor(
+                seconds / 60
+            );
 
-    if (!isFinite(seconds)) {
-        return "0:00";
-    }
 
-    const minutes =
-        Math.floor(seconds / 60);
-
-    const remainingSeconds =
-        Math.floor(seconds % 60)
+        const remainingSeconds =
+            Math.floor(
+                seconds % 60
+            )
             .toString()
             .padStart(2, "0");
 
-    return `${minutes}:${remainingSeconds}`;
+
+        return (
+            `${minutes}:${remainingSeconds}`
+        );
+
+    }
 
 }
 
@@ -897,4 +1101,3 @@ function formatMusicTime(seconds) {
 console.log(
     "💜 For You, As Always — website initialized."
 );
-```
