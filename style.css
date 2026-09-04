@@ -95,8 +95,6 @@ body {
 }
 
 
-/* Large atmospheric glow */
-
 .background-effects::before {
 
     content: "";
@@ -294,8 +292,6 @@ body {
 }
 
 
-/* Main falling animation */
-
 @keyframes falling {
 
     0% {
@@ -348,14 +344,10 @@ body {
 }
 
 
-/* Hearts */
-
 .falling-heart {
     color: #c792ff;
 }
 
-
-/* Roses */
 
 .falling-rose {
 
@@ -365,8 +357,6 @@ body {
         );
 }
 
-
-/* Sparkles */
 
 .falling-sparkle {
 
@@ -422,8 +412,6 @@ body {
 }
 
 
-/* Stars */
-
 .falling-star {
 
     color: #d9c3ff;
@@ -470,8 +458,6 @@ body {
 }
 
 
-/* Small dots */
-
 .falling-dot {
 
     color: #b996e8;
@@ -482,8 +468,6 @@ body {
         0 0 8px #b996e8;
 }
 
-
-/* Petals */
 
 .falling-petal {
 
@@ -542,8 +526,6 @@ body {
 }
 
 
-/* Diamonds */
-
 .falling-diamond {
 
     color: #aa8bff;
@@ -586,8 +568,6 @@ body {
     }
 }
 
-
-/* Tiny particles */
 
 .falling-particle {
 
@@ -675,8 +655,6 @@ body {
         visibility 1.2s;
 }
 
-
-/* When opening */
 
 .entrance-screen.opening {
 
@@ -829,8 +807,6 @@ body {
 }
 
 
-/* Heart center */
-
 .heart-content {
 
     position: relative;
@@ -889,8 +865,6 @@ body {
 }
 
 
-/* Heart hover */
-
 .heart-entrance:hover {
 
     transform:
@@ -918,8 +892,6 @@ body {
         rgba(155,108,255,.4);
 }
 
-
-/* Pulsing heart */
 
 .heart-entrance {
 
@@ -1379,8 +1351,6 @@ body {
 }
 
 
-/* Huge faded title */
-
 .background-title {
 
     position: absolute;
@@ -1472,6 +1442,17 @@ body {
 
     text-shadow:
         0 0 20px rgba(155,108,255,.08);
+}
+
+
+.confession-heading span,
+.letter-paragraph span,
+.secret-text span {
+    color: #d8c2ff;
+    text-shadow:
+        0 0 5px var(--light-purple),
+        0 0 15px var(--purple),
+        0 0 30px rgba(155,108,255,.5);
 }
 
 
@@ -2414,56 +2395,49 @@ body {
 
 /* ============================================================
    37. MUSIC PLAYER
+   SMALL GLOWING RIGHT-SIDE BOX
    ============================================================ */
 
 .music-player {
 
     position: fixed;
 
-    left: 50%;
+    right: 24px;
+    bottom: 24px;
 
-    bottom: 25px;
+    width: 245px;
+    min-height: 82px;
 
-    transform:
-        translateX(-50%);
-
-    width:
-        min(
-            360px,
-            calc(100% - 35px)
-        );
-
-    padding:
-        10px
-        13px
-        9px;
+    padding: 11px;
 
     z-index: 1000;
 
     border:
         1px solid
-        rgba(199,166,255,.22);
+        rgba(199,166,255,.32);
 
-    border-radius: 14px;
+    border-radius: 15px;
 
     background:
         linear-gradient(
-            135deg,
-            rgba(10,7,24,.94),
-            rgba(25,13,45,.90)
+            145deg,
+            rgba(12,7,28,.96),
+            rgba(29,15,51,.93)
         );
 
     box-shadow:
 
-        0 10px 30px
+        0 12px 35px
         rgba(0,0,0,.45),
 
-        0 0 18px
-        rgba(155,108,255,.10),
+        0 0 12px
+        rgba(155,108,255,.16),
 
-        inset
-        0 1px 0
-        rgba(255,255,255,.06);
+        0 0 35px
+        rgba(155,108,255,.08),
+
+        inset 0 1px 0
+        rgba(255,255,255,.07);
 
     backdrop-filter:
         blur(18px);
@@ -2471,9 +2445,12 @@ body {
     -webkit-backdrop-filter:
         blur(18px);
 
+    overflow: hidden;
+
     transition:
         border-color .4s ease,
-        box-shadow .4s ease;
+        box-shadow .4s ease,
+        transform .3s ease;
 }
 
 
@@ -2486,10 +2463,8 @@ body {
     position: absolute;
 
     top: 0;
-
-    left: 18%;
-
-    width: 64%;
+    left: 12px;
+    right: 12px;
 
     height: 1px;
 
@@ -2497,19 +2472,19 @@ body {
         linear-gradient(
             90deg,
             transparent,
-            rgba(216,194,255,.8),
+            rgba(216,194,255,.9),
             transparent
         );
 
     box-shadow:
-        0 0 7px
-        rgba(155,108,255,.7);
+        0 0 8px
+        rgba(155,108,255,.8);
 
-    opacity: .6;
+    opacity: .7;
 }
 
 
-/* Soft player glow */
+/* Internal purple glow */
 
 .music-player::after {
 
@@ -2517,52 +2492,50 @@ body {
 
     position: absolute;
 
-    width: 110px;
-    height: 110px;
+    width: 130px;
+    height: 130px;
 
-    left: 12%;
+    right: -55px;
+    bottom: -70px;
 
-    top: 50%;
-
-    transform:
-        translate(-50%,-50%);
+    border-radius: 50%;
 
     background:
         radial-gradient(
             circle,
-            rgba(155,108,255,.14),
+            rgba(155,108,255,.18),
             transparent 70%
         );
 
-    filter: blur(16px);
+    filter: blur(12px);
 
     pointer-events: none;
 }
 
 
-/* Playing state */
-
 .music-player.music-playing {
 
     border-color:
-        rgba(199,166,255,.4);
+        rgba(199,166,255,.55);
 
     box-shadow:
 
-        0 10px 30px
-        rgba(0,0,0,.45),
+        0 12px 35px
+        rgba(0,0,0,.48),
 
-        0 0 24px
-        rgba(155,108,255,.18),
+        0 0 15px
+        rgba(155,108,255,.28),
 
-        inset
-        0 1px 0
-        rgba(255,255,255,.08);
+        0 0 40px
+        rgba(155,108,255,.13),
+
+        inset 0 1px 0
+        rgba(255,255,255,.09);
 }
 
 
 /* ============================================================
-   PLAYER TOP
+   MUSIC PLAYER TOP
    ============================================================ */
 
 .music-player-top {
@@ -2575,163 +2548,198 @@ body {
 
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
-    width: 100%;
+    min-width: 0;
 }
 
 
-/* Music symbol */
+/* ============================================================
+   VINYL DISC
+   ============================================================ */
 
-.music-player-icon {
+.music-disc {
 
-    width: 31px;
-    height: 31px;
+    position: relative;
+
+    width: 42px;
+    height: 42px;
 
     flex:
-        0 0 31px;
+        0 0
+        42px;
 
-    display: flex;
+    border-radius: 50%;
 
-    align-items: center;
+    background:
+        radial-gradient(
+            circle,
+            #d8c2ff 0 8%,
+            #261638 9% 15%,
+            #0a0710 16% 45%,
+            #35204f 46% 49%,
+            #10091a 50% 100%
+        );
 
-    justify-content: center;
+    border:
+        1px solid
+        rgba(216,194,255,.32);
+
+    box-shadow:
+
+        0 0 9px
+        rgba(155,108,255,.28),
+
+        inset 0 0 8px
+        rgba(255,255,255,.04);
+
+    transition:
+        box-shadow .4s ease;
+}
+
+
+.music-disc::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 5px;
 
     border-radius: 50%;
 
     border:
         1px solid
-        rgba(216,194,255,.3);
+        rgba(216,194,255,.08);
+}
+
+
+.music-disc::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 6px;
+    height: 6px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
 
     background:
-        radial-gradient(
-            circle,
-            rgba(199,166,255,.22),
-            rgba(40,20,65,.9)
-        );
+        #0b0614;
 
-    color:
-        #d8c2ff;
+    border:
+        1px solid
+        rgba(216,194,255,.55);
 
-    font-family:
-        var(--serif);
+    z-index: 3;
+}
 
-    font-size: 17px;
 
-    text-shadow:
+.music-playing .music-disc {
 
-        0 0 7px
-        var(--purple),
-
-        0 0 14px
-        rgba(155,108,255,.5);
+    animation:
+        musicDiscSpin
+        4s
+        linear
+        infinite;
 
     box-shadow:
 
-        0 0 9px
-        rgba(155,108,255,.2);
+        0 0 12px
+        rgba(199,166,255,.65),
 
-    transition:
-        box-shadow .4s ease,
-        transform .4s ease;
+        0 0 24px
+        rgba(155,108,255,.18);
 }
 
 
-/* Subtle spinning music icon while playing */
+@keyframes musicDiscSpin {
 
-.music-player.music-playing .music-player-icon {
-
-    animation:
-        musicIconPulse
-        2s
-        ease-in-out
-        infinite;
-}
-
-
-@keyframes musicIconPulse {
-
-    0%, 100% {
-
-        transform:
-            scale(1);
-
+    from {
+        transform: rotate(0deg);
     }
 
-    50% {
-
-        transform:
-            scale(1.08);
-
+    to {
+        transform: rotate(360deg);
     }
+
 }
 
 
 /* ============================================================
-   SONG INFORMATION
+   MUSIC DETAILS
    ============================================================ */
 
-.music-player-info {
+.music-details {
 
     min-width: 0;
 
     flex: 1;
 
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
     text-align: left;
-
-    line-height: 1;
 }
 
 
-.music-player-label {
+.music-label {
 
-    font-family:
-        var(--sans);
+    display: block;
+
+    margin-bottom: 2px;
+
+    font-family: var(--sans);
 
     font-size: 6px;
 
-    letter-spacing: 2px;
+    letter-spacing: 1.8px;
 
     color:
-        rgba(216,194,255,.42);
-
-    margin-bottom: 4px;
-
-    text-transform:
-        uppercase;
+        rgba(216,194,255,.48);
 }
 
 
-.music-player-title {
+.music-details h3 {
 
-    font-family:
-        var(--serif);
+    font-family: var(--serif);
 
-    font-size: 16px;
+    font-size: 17px;
+
+    line-height: 1;
 
     font-weight: 600;
 
-    color:
-        #ffffff;
+    color: #ffffff;
 
-    white-space:
-        nowrap;
+    white-space: nowrap;
 
-    overflow:
-        hidden;
+    overflow: hidden;
 
-    text-overflow:
-        ellipsis;
+    text-overflow: ellipsis;
 
     text-shadow:
-        0 0 10px
+        0 0 8px
         rgba(199,166,255,.18);
+}
+
+
+.music-details p {
+
+    margin-top: 3px;
+
+    font-family: var(--sans);
+
+    font-size: 7px;
+
+    letter-spacing: 1px;
+
+    color:
+        rgba(216,194,255,.45);
 }
 
 
@@ -2741,11 +2749,14 @@ body {
 
 .music-play-button {
 
-    width: 31px;
-    height: 31px;
+    position: relative;
+
+    width: 34px;
+    height: 34px;
 
     flex:
-        0 0 31px;
+        0 0
+        34px;
 
     border:
         1px solid
@@ -2755,13 +2766,15 @@ body {
 
     background:
         linear-gradient(
-            135deg,
+            145deg,
             #d8c2ff,
-            #8c61d1
+            #8b5dd1
         );
 
     color:
-        #11091d;
+        #160d25;
+
+    cursor: pointer;
 
     display: flex;
 
@@ -2769,21 +2782,23 @@ body {
 
     justify-content: center;
 
-    padding: 0;
-
-    cursor: pointer;
-
     font-family:
-        var(--sans);
+        Arial,
+        sans-serif;
 
-    font-size: 8px;
+    font-size: 10px;
 
     line-height: 1;
 
+    padding: 0;
+
     box-shadow:
 
-        0 0 10px
-        rgba(155,108,255,.35);
+        0 0 8px
+        rgba(155,108,255,.35),
+
+        inset 0 1px 2px
+        rgba(255,255,255,.35);
 
     transition:
         transform .25s ease,
@@ -2794,76 +2809,47 @@ body {
 .music-play-button:hover {
 
     transform:
-        scale(1.1);
-
-    box-shadow:
-
-        0 0 14px
-        rgba(199,166,255,.7),
-
-        0 0 25px
-        rgba(155,108,255,.25);
-}
-
-
-.music-player.music-playing
-.music-play-button {
+        scale(1.08);
 
     box-shadow:
 
         0 0 12px
         rgba(199,166,255,.7),
 
-        0 0 22px
+        0 0 25px
         rgba(155,108,255,.3);
 }
 
 
+.music-playing .music-play-button {
+
+    box-shadow:
+
+        0 0 12px
+        rgba(199,166,255,.75),
+
+        0 0 24px
+        rgba(155,108,255,.28);
+}
+
+
 /* ============================================================
-   PROGRESS AREA
+   PROGRESS
    ============================================================ */
 
-.music-player-progress {
+.music-progress-container {
 
     position: relative;
 
     z-index: 2;
 
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    margin-top: 7px;
+    margin-top: 9px;
 
     width: 100%;
 }
 
 
-.music-player-progress span {
-
-    min-width: 24px;
-
-    font-family:
-        var(--sans);
-
-    font-size: 6px;
-
-    color:
-        rgba(216,194,255,.45);
-
-    text-align: center;
-
-    user-select: none;
-}
-
-
-/* Progress slider */
-
 #progressBar {
-
-    flex: 1;
 
     width: 100%;
 
@@ -2886,8 +2872,6 @@ body {
 }
 
 
-/* Chrome / Edge track */
-
 #progressBar::-webkit-slider-runnable-track {
 
     height: 3px;
@@ -2897,13 +2881,11 @@ body {
     background:
         linear-gradient(
             90deg,
-            rgba(155,108,255,.85),
-            rgba(216,194,255,.15)
+            rgba(155,108,255,.9),
+            rgba(199,166,255,.22)
         );
 }
 
-
-/* Firefox track */
 
 #progressBar::-moz-range-track {
 
@@ -2915,8 +2897,6 @@ body {
         rgba(216,194,255,.12);
 }
 
-
-/* Chrome / Edge thumb */
 
 #progressBar::-webkit-slider-thumb {
 
@@ -2944,8 +2924,6 @@ body {
 }
 
 
-/* Firefox thumb */
-
 #progressBar::-moz-range-thumb {
 
     width: 8px;
@@ -2967,92 +2945,73 @@ body {
 
 
 /* ============================================================
-   MUSIC PLAYER MOBILE
+   TIME
+   ============================================================ */
+
+.music-time {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 4px;
+
+    font-family: var(--sans);
+
+    font-size: 6px;
+
+    color:
+        rgba(216,194,255,.42);
+}
+
+
+/* ============================================================
+   PHONE DESIGN
    ============================================================ */
 
 @media (max-width: 700px) {
 
     .music-player {
 
+        right: 12px;
+        bottom: 12px;
+
         width:
             min(
-                350px,
+                230px,
                 calc(100% - 24px)
             );
 
-        bottom: 14px;
+        min-height: 76px;
 
-        padding:
-            9px
-            11px
-            8px;
+        padding: 9px;
 
-        border-radius: 13px;
+        border-radius: 14px;
     }
 
 
-    .music-player-icon {
+    .music-disc {
 
-        width: 29px;
-        height: 29px;
+        width: 38px;
+        height: 38px;
 
-        flex-basis: 29px;
+        flex-basis: 38px;
+    }
+
+
+    .music-details h3 {
 
         font-size: 15px;
     }
 
 
-    .music-player-title {
+    .music-details p {
 
-        font-size: 15px;
+        font-size: 6px;
     }
 
 
-    .music-play-button {
-
-        width: 30px;
-        height: 30px;
-
-        flex-basis: 30px;
-    }
-
-}
-
-
-@media (max-width: 400px) {
-
-    .music-player {
-
-        width:
-            calc(100% - 18px);
-
-        bottom: 10px;
-
-        padding:
-            8px
-            9px
-            7px;
-    }
-
-
-    .music-player-icon {
-
-        width: 27px;
-        height: 27px;
-
-        flex-basis: 27px;
-
-        font-size: 14px;
-    }
-
-
-    .music-player-title {
-
-        font-size: 14px;
-    }
-
-
-    .music-player-label {
+    .music-label {
 
         font-size: 5px;
 
@@ -3062,26 +3021,79 @@ body {
 
     .music-play-button {
 
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
 
-        flex-basis: 28px;
+        flex-basis: 32px;
+    }
 
-        font-size: 7px;
+}
+
+
+/* ============================================================
+   VERY SMALL PHONES
+   ============================================================ */
+
+@media (max-width: 400px) {
+
+    .music-player {
+
+        right: 9px;
+        bottom: 9px;
+
+        width:
+            calc(100% - 18px);
+
+        max-width: 220px;
+
+        min-height: 70px;
+
+        padding: 8px;
+
+        border-radius: 13px;
     }
 
 
-    .music-player-progress {
+    .music-disc {
 
-        gap: 5px;
+        width: 34px;
+        height: 34px;
 
-        margin-top: 6px;
+        flex-basis: 34px;
     }
 
 
-    .music-player-progress span {
+    .music-details h3 {
 
-        min-width: 21px;
+        font-size: 14px;
+    }
+
+
+    .music-details p,
+    .music-label {
+
+        font-size: 5px;
+    }
+
+
+    .music-play-button {
+
+        width: 29px;
+        height: 29px;
+
+        flex-basis: 29px;
+
+        font-size: 9px;
+    }
+
+
+    .music-progress-container {
+
+        margin-top: 7px;
+    }
+
+
+    .music-time {
 
         font-size: 5px;
     }
@@ -3090,13 +3102,12 @@ body {
 
 
 /* ============================================================
-   38. MUSIC PLAYER REDUCED MOTION
+   MUSIC REDUCED MOTION
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .music-player.music-playing
-    .music-player-icon {
+    .music-disc {
 
         animation: none !important;
 
